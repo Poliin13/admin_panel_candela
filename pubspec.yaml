@@ -1,0 +1,39 @@
+name: admin_panel_candela
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  firebase_core: ^2.24.2
+  firebase_database: ^10.3.8
+  firebase_storage: ^11.6.0
+  google_fonts: ^6.1.0
+  provider: ^6.0.5
+  riverpod: ^2.4.9
+  flutter_tex: ^4.0.5
+  file_picker: ^6.1.1
+  cached_network_image: ^3.3.1
+  firebase_auth: ^4.14.1
+  firebase_ui_auth: ^1.10.0
+
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/
+
+
+

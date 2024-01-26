@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "436107959923",
+    "firebase_url": "https://admin-panel-candela-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "admin-panel-candela",
+    "storage_bucket": "admin-panel-candela.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436107959923:android:732ef414e8e0315d335406",
+        "android_client_info": {
+          "package_name": "com.example.admin_panel_candela"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4VAHPIXbvkOwD8EHwE_I0g_5DCD5s4tg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
