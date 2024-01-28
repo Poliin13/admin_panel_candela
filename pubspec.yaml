@@ -15,7 +15,7 @@ dependencies:
   google_fonts: ^6.1.0
   provider: ^6.0.5
   riverpod: ^2.4.9
-  flutter_tex: ^4.0.5
+  flutter_tex: ^4.0.6
   file_picker: ^6.1.1
   cached_network_image: ^3.3.1
   firebase_auth: ^4.14.1

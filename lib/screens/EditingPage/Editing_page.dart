@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
@@ -72,12 +71,17 @@ class _EditingPageState extends State<EditingPage> {
           // ),
           SizedBox(width: 8),
           ElevatedButton(
-            style: imagePicked != true? ButtonStyle() :ButtonStyle(backgroundColor:
-            MaterialStateProperty
-                .all<Color>(Colors.green)),
-            onPressed: imagePicked != true?_pickAndPreviewImage: _uploadImage,
-            child: imagePicked != true? Text('Pick Image') :Text('Click '
-                'to Upload Image'),
+            style: imagePicked != true
+                ? ButtonStyle()
+                : ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.green)),
+            onPressed:
+                imagePicked != true ? _pickAndPreviewImage : _uploadImage,
+            child: imagePicked != true
+                ? Text('Pick Image')
+                : Text('Click '
+                    'to Upload Image'),
           ),
           SizedBox(width: 8),
           ElevatedButton(
@@ -108,15 +112,42 @@ class _EditingPageState extends State<EditingPage> {
             flex: 5,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: ListView(
-                children: [
-                  SizedBox(height: 16),
-                  buildQuestionTextFIeld(),
-                  SizedBox(height: 16),
-                  buildAnswerTextField(),
-                  SizedBox(height: 16),
-                  buildMathTypeTextField(),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    // SizedBox(height: 16),
+                    buildQuestionTextFIeld(),
+                    SizedBox(height: 16),
+                    buildAnswerTextField(),
+                    SizedBox(height: 16),
+                    buildMathTypeTextField(),
+                    SizedBox(height: 16),
+                    //Without these left column goes down to center
+                    // if (_imageBytes != null) SizedBox(height: 250),
+                    // if (imageUrl != null) SizedBox(height: 300),
+                    if (_imageBytes != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Image.memory(
+                          _imageBytes!,
+                          height: 200,
+                          width: 200,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    if (imageUrl != null)
+                      Center(
+                        child: CachedNetworkImage(
+                          height: 300,
+                          imageUrl: imageUrl!,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.no_photography),
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -125,7 +156,7 @@ class _EditingPageState extends State<EditingPage> {
             flex: 4,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: ListView(
+              child: Column(
                 children: [
                   TeXView(
                     renderingEngine: TeXViewRenderingEngine.katex(),
@@ -162,29 +193,6 @@ class _EditingPageState extends State<EditingPage> {
                           style:
                               TextStyle(fontSize: 12, color: Colors.blueGrey),
                         ),
-                  SizedBox(height: 16),
-                  if (_imageBytes != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Image.memory(
-                        _imageBytes!,
-                        height: 200,
-                        width: 200,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  if (imageUrl != null)
-                    Center(
-                      child: CachedNetworkImage(
-                        imageUrl: imageUrl!,
-                        placeholder: (context, url) =>
-                            CircularProgressIndicator(),
-                        errorWidget: (context, url, error) =>
-                            Icon(Icons.no_photography),
-                      ),
-                    ),
-
-                  SizedBox(height: 16),
                 ],
               ),
             ),
@@ -250,7 +258,7 @@ class _EditingPageState extends State<EditingPage> {
       print(downloadURL);
       imageUrl = downloadURL;
       // Show Toast
-      ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         elevation: 2,
         backgroundColor: Colors.black12,
         content: Center(

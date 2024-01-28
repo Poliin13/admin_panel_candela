@@ -2,6 +2,8 @@ import 'package:admin_panel_candela/screens/HomePage/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../test/flutter_tex_test.dart';
+
 class SideDrawer extends StatelessWidget {
   const SideDrawer({
     Key? key,
@@ -20,8 +22,13 @@ class SideDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('Profile'),
-            onTap: () {},
+            title: const Text('Latex'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TeXViewDocumentExamples()));
+            },
           ),
           ListTile(
             leading: const Icon(Icons.rocket),
@@ -31,12 +38,12 @@ class SideDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomePage(
-                      questionsChapter: 'chapter_1_math_questions'),
-                ),
+                    builder: (context) =>
+                        HomePage(questionsChapter: 'chapter_1_math_questions')),
               );
             },
-          ),ListTile(
+          ),
+          ListTile(
             leading: const Icon(Icons.rocket),
             title: const Text('Physics 1st'),
             subtitle: const Text('Math Chapter 2'),
@@ -44,12 +51,13 @@ class SideDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomePage(
-                      questionsChapter: 'chapter_2_math_questions'),
+                  builder: (context) =>
+                      HomePage(questionsChapter: 'chapter_2_math_questions'),
                 ),
               );
             },
-          ),ListTile(
+          ),
+          ListTile(
             leading: const Icon(Icons.rocket),
             title: const Text('Physics 1st'),
             subtitle: const Text('Math Chapter 3'),
@@ -57,13 +65,12 @@ class SideDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomePage(
-                      questionsChapter: 'chapter_3_math_questions'),
+                  builder: (context) =>
+                      HomePage(questionsChapter: 'chapter_3_math_questions'),
                 ),
               );
             },
           ),
-
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
