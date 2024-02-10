@@ -6,6 +6,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_tex/flutter_tex.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../HomePage/vertical_split_view.dart';
 
 class EditingPage extends StatefulWidget {
   final Map<String, dynamic>? questionDetails;
@@ -37,7 +40,7 @@ class _EditingPageState extends State<EditingPage> {
   void initState() {
     super.initState();
     // Set initial values for editing existing question
-
+    print(widget.questionIndex);
     if (widget.questionDetails != null) {
       questionController.text = widget.questionDetails!['question'];
       answerController.text = widget.questionDetails!['answer'].toString();
@@ -59,16 +62,6 @@ class _EditingPageState extends State<EditingPage> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          // ElevatedButton(
-          //   onPressed: () {
-          //     print(widget.folderName +
-          //         '_Image_' +
-          //         widget.questionIndex.toString());
-          //
-          //     // Reference referenceImageToUpload = referenceDirImage.child(fileName);
-          //   },
-          //   child: Text('Test'),
-          // ),
           SizedBox(width: 8),
           ElevatedButton(
             style: imagePicked != true
@@ -91,7 +84,7 @@ class _EditingPageState extends State<EditingPage> {
           SizedBox(width: 8),
           ElevatedButton(
             onPressed: () {
-              _updateData(widget.questionIndex, imageUrl);
+              _updateOrAddData(widget.questionIndex, imageUrl);
               Navigator.pop(
                   context); // Return to the previous screen after updating
             },
@@ -101,104 +94,196 @@ class _EditingPageState extends State<EditingPage> {
           ),
           SizedBox(width: 8),
         ],
-        title: Text(
-          widget.isNewQuestion == true ? 'Add New Question' : 'Edit Question',
-        ),
+        title: Text(widget.isNewQuestion == true
+            ? 'Add New Question'
+            : 'Edit Question'),
       ),
-      body: Row(
-        children: [
-          // Editing Section
-          Expanded(
-            flex: 5,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: Column(
+      body: HorizontalSplitView(
+        left: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // SizedBox(height: 16),
+                buildQuestionTextFIeld(),
+                SizedBox(height: 16),
+                buildAnswerTextField(),
+                SizedBox(height: 16),
+                buildMathTypeTextField(),
+                SizedBox(height: 16),
+              ],
+            ),
+          ),
+        ),
+        right: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            children: [
+              TeXView(
+                renderingEngine: TeXViewRenderingEngine.katex(),
+                child: TeXViewColumn(
                   children: [
-                    // SizedBox(height: 16),
-                    buildQuestionTextFIeld(),
-                    SizedBox(height: 16),
-                    buildAnswerTextField(),
-                    SizedBox(height: 16),
-                    buildMathTypeTextField(),
-                    SizedBox(height: 16),
-                    //Without these left column goes down to center
-                    // if (_imageBytes != null) SizedBox(height: 250),
-                    // if (imageUrl != null) SizedBox(height: 300),
-                    if (_imageBytes != null)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: Image.memory(
-                          _imageBytes!,
-                          height: 200,
-                          width: 200,
-                          fit: BoxFit.contain,
-                        ),
+                    TeXViewDocument(
+                      questionController.text,
+                      style: TeXViewStyle(
+                        contentColor: Colors.blue,
                       ),
-                    if (imageUrl != null)
-                      Center(
-                        child: CachedNetworkImage(
-                          height: 300,
-                          imageUrl: imageUrl!,
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.no_photography),
-                        ),
+                    ),
+                    TeXViewDocument(
+                      answerController.text,
+                      style: TeXViewStyle(
+                        margin: TeXViewMargin.only(top: 16),
+                        contentColor: Colors.white,
                       ),
+                    ),
                   ],
                 ),
               ),
-            ),
-          ),
-          // Output Section
-          Expanded(
-            flex: 4,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  TeXView(
-                    renderingEngine: TeXViewRenderingEngine.katex(),
-                    child: TeXViewColumn(
-                      children: [
-                        TeXViewDocument(
-                          questionController.text,
-                          style: TeXViewStyle(
-                            contentColor: Colors.blue,
-                          ),
-                        ),
-                        TeXViewDocument(
-                          answerController.text,
-                          style: TeXViewStyle(
-                            margin: TeXViewMargin.only(top: 16),
-                            contentColor: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ), // Updated text
-                  SizedBox(height: 8),
-                  Text(
-                    'Math Type: ${mathTypeController.text}',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 12, color: Colors.blueGrey),
+              SizedBox(height: 8),
+              if (_imageBytes != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Image.memory(
+                    _imageBytes!,
+                    height: 150,
+                    width: 150,
+                    fit: BoxFit.contain,
                   ),
-                  SizedBox(height: 4),
-                  widget.isNewQuestion == true
-                      ? SizedBox.shrink()
-                      : Text(
-                          'Timestamp: ${widget.questionDetails?['date_updated']}',
-                          textAlign: TextAlign.right,
-                          style:
-                              TextStyle(fontSize: 12, color: Colors.blueGrey),
-                        ),
-                ],
+                ),
+              if (imageUrl != null)
+                Center(
+                  child: CachedNetworkImage(
+                    height: 150,
+                    imageUrl: imageUrl!,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.no_photography),
+                  ),
+                ),
+              // Updated text
+              SizedBox(height: 8),
+              Text(
+                'Math Type: ${mathTypeController.text}',
+                textAlign: TextAlign.right,
+                style: TextStyle(fontSize: 12, color: Colors.blueGrey),
               ),
-            ),
+              SizedBox(height: 4),
+              widget.isNewQuestion == true
+                  ? SizedBox.shrink()
+                  : Text(
+                      'Timestamp: ${widget.questionDetails?['date_updated']}',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 12, color: Colors.blueGrey),
+                    ),
+            ],
           ),
-        ],
+        ),
       ),
+      // body: Row(
+      //   children: [
+      //     // Editing Section
+      //     Expanded(
+      //       flex: 5,
+      //       child: Padding(
+      //         padding: const EdgeInsets.all(16.0),
+      //         child: SingleChildScrollView(
+      //           child: Column(
+      //             children: [
+      //               // SizedBox(height: 16),
+      //               buildQuestionTextFIeld(),
+      //               SizedBox(height: 16),
+      //               buildAnswerTextField(),
+      //               SizedBox(height: 16),
+      //               buildMathTypeTextField(),
+      //               SizedBox(height: 16),
+      //               //Without these left column goes down to center
+      //               // if (_imageBytes != null) SizedBox(height: 250),
+      //               // if (imageUrl != null) SizedBox(height: 300),
+      //             ],
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //     // Output Section
+      //     Expanded(
+      //       flex: 4,
+      //       child: Padding(
+      //         padding: const EdgeInsets.all(16.0),
+      //         child: ListView(
+      //           children: [
+      //             Math.tex(questionController.text,
+      //                 textStyle: TextStyle(fontSize: 14, color: Colors.blue)),
+      //             SizedBox(height: 16),
+      //             Math.tex(
+      //               answerController.text,
+      //               textStyle: GoogleFonts.anekBangla(
+      //                 fontSize: 14,
+      //                 fontWeight: FontWeight.w900,
+      //               ),
+      //             ),
+      //             SizedBox(height: 8),
+      //             if (_imageBytes != null)
+      //               Padding(
+      //                 padding: const EdgeInsets.symmetric(vertical: 16.0),
+      //                 child: Image.memory(
+      //                   _imageBytes!,
+      //                   height: 150,
+      //                   width: 150,
+      //                   fit: BoxFit.contain,
+      //                 ),
+      //               ),
+      //             if (imageUrl != null)
+      //               Center(
+      //                 child: CachedNetworkImage(
+      //                   height: 150,
+      //                   imageUrl: imageUrl!,
+      //                   placeholder: (context, url) =>
+      //                       CircularProgressIndicator(),
+      //                   errorWidget: (context, url, error) =>
+      //                       Icon(Icons.no_photography),
+      //                 ),
+      //               ),
+      //             // TeXView(
+      //             //   renderingEngine: TeXViewRenderingEngine.katex(),
+      //             //   child: TeXViewColumn(
+      //             //     children: [
+      //             //       TeXViewDocument(
+      //             //         questionController.text,
+      //             //         style: TeXViewStyle(
+      //             //           contentColor: Colors.blue,
+      //             //         ),
+      //             //       ),
+      //             //       TeXViewDocument(
+      //             //         answerController.text,
+      //             //         style: TeXViewStyle(
+      //             //           margin: TeXViewMargin.only(top: 16),
+      //             //           contentColor: Colors.white,
+      //             //         ),
+      //             //       ),
+      //             //     ],
+      //             //   ),
+      //             // ), // Updated text
+      //             SizedBox(height: 8),
+      //             Text(
+      //               'Math Type: ${mathTypeController.text}',
+      //               textAlign: TextAlign.right,
+      //               style: TextStyle(fontSize: 12, color: Colors.blueGrey),
+      //             ),
+      //             SizedBox(height: 4),
+      //             widget.isNewQuestion == true
+      //                 ? SizedBox.shrink()
+      //                 : Text(
+      //                     'Timestamp: ${widget.questionDetails?['date_updated']}',
+      //                     textAlign: TextAlign.right,
+      //                     style:
+      //                         TextStyle(fontSize: 12, color: Colors.blueGrey),
+      //                   ),
+      //           ],
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
     );
   }
 
@@ -274,7 +359,7 @@ class _EditingPageState extends State<EditingPage> {
     }
   }
 
-  Future<void> _updateData(int questionIndex, String? imageUrl) async {
+  Future<void> _updateOrAddData(int questionIndex, String? imageUrl) async {
     try {
       // Update the timestamp before saving
       final Map<String, dynamic> data = {

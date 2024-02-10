@@ -18,9 +18,31 @@ class QuestionCardList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButtonLocation: FloatingActionButtonLocation.startDocked,
-      floatingActionButton: FloatingButton(
-          newQuestionIndex: newQuestionIndex, folderName: folderName),
+      //Do not refactor this widget
+      floatingActionButton: Padding(
+        padding: EdgeInsets.all(16.0), // Adjust the padding as needed
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EditingPage(
+                  questionIndex: newQuestionIndex,
+                  isNewQuestion: true, folderName: folderName, // Pass -1 to
+                  // indicate a new question
+                ),
+              ),
+            );
+            // Handle adding a new question
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(Icons.add),
+          ),
+          tooltip: 'Add New Question',
+          heroTag: 'addQuestionButton',
+        ),
+      ),
       body: StreamBuilder(
         stream: dataRef.child(questionsChapter).onValue,
         builder: (context, snapshot) {
@@ -41,6 +63,7 @@ class QuestionCardList extends StatelessWidget {
                     .cast<Map<String, dynamic>>();
             //for adding new item to the list this value is needed
             newQuestionIndex = questionItems.length;
+            print(newQuestionIndex);
             return ListView.builder(
               itemCount: questionItems.length,
               itemBuilder: (context, index) {
@@ -189,46 +212,5 @@ class QuestionCardList extends StatelessWidget {
     } catch (error) {
       print('Error deleting image: $error');
     }
-  }
-}
-
-class FloatingButton extends StatelessWidget {
-  const FloatingButton({
-    super.key,
-    required this.newQuestionIndex,
-    required this.folderName,
-  });
-
-  final int newQuestionIndex;
-  final String folderName;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16.0), // Adjust the padding as needed
-      child: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => EditingPage(
-                questionIndex: newQuestionIndex,
-                isNewQuestion: true, folderName: folderName, // Pass -1 to
-                // indicate a
-                // new
-                // question
-              ),
-            ),
-          );
-          // Handle adding a new question
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(Icons.add),
-        ),
-        tooltip: 'Add New Question',
-        heroTag: 'addQuestionButton',
-      ),
-    );
   }
 }

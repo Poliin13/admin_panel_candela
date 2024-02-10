@@ -1,7 +1,7 @@
 import 'package:admin_panel_candela/screens/HomePage/home_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide PhoneAuthProvider, EmailAuthProvider;
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'Authentication/sign_in.dart';
@@ -28,15 +28,17 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Admin Panel',
       theme: darkThemeData,
-      //SignIn Handler
+      // SignIn Handler
       initialRoute: FirebaseAuth.instance.currentUser == null
           ? '/sign-in'
+          // ? '/loadingPage'
           : '/loadingPage',
       routes: {
         '/sign-in': (context) => const SignIn(),
-        '/loadingPage': (context) => HomePage(questionsChapter: 'chapter_1_math_questions'),
+        '/loadingPage': (context) =>
+            HomePage(questionsChapter: 'chapter_1_math_questions'),
       },
-      // home: HomePage(),
+      // home: HomePage(questionsChapter: 'chapter_1_math_questions'),
       // home: MyHomePage(),
     );
   }

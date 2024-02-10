@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="$FLUTTER_BASE_HREF">
+<!--  <base href="$FLUTTER_BASE_HREF">-->
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -86,6 +86,28 @@
       });
     });
   </script>
+
+<!--<script>-->
+<!--    let useHtml = false;-->
+
+<!--    window.addEventListener('load', function(ev) {-->
+<!--    _flutter.loader.loadEntrypoint({-->
+<!--      serviceWorker: {-->
+<!--        serviceWorkerVersion: serviceWorkerVersion,-->
+<!--      },-->
+<!--      onEntrypointLoaded: function(engineInitializer) {-->
+<!--        let config = {-->
+<!--          renderer: useHtml ? "html" : "canvaskit",-->
+<!--        };-->
+<!--        engineInitializer.initializeEngine(config).then(function(appRunner) {-->
+<!--          appRunner.runApp();-->
+<!--        });-->
+<!--      }-->
+<!--    });-->
+<!--  });-->
+<!--  </script>-->
+
+
 
 <script type="text/javascript">
     window.flutterWebRenderer = "html";

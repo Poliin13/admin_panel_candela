@@ -2,8 +2,6 @@ import 'package:admin_panel_candela/screens/HomePage/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../test/flutter_tex_test.dart';
-
 class SideDrawer extends StatelessWidget {
   const SideDrawer({
     Key? key,
@@ -20,16 +18,16 @@ class SideDrawer extends StatelessWidget {
               child: Image.asset("assets/images/icon_candela_transparent.png"),
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.person),
-            title: const Text('Latex'),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => TeXViewDocumentExamples()));
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.person),
+          //   title: const Text('Latex'),
+          //   onTap: () {
+          //     Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => TeXViewDocumentExamples()));
+          //   },
+          // ),
           ListTile(
             leading: const Icon(Icons.rocket),
             title: const Text('Physics 1st'),

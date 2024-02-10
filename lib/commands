@@ -1,0 +1,6 @@
+flutter run -d chrome --release
+
+flutter build web --profile --dart-define=Dart2jsOptimization=O0
+
+//build app locally before firebase hosting
+firebase emulators:start
