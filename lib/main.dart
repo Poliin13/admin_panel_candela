@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Admin Panel',
       theme: darkThemeData,
       // SignIn Handler
-      initialRoute: FirebaseAuth.instance.currentUser == null
+      initialRoute: FirebaseAuth.instance.currentUser != null
           ? '/sign-in'
           // ? '/loadingPage'
           : '/loadingPage',

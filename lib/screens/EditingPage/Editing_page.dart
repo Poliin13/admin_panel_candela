@@ -1,12 +1,12 @@
 import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_tex/flutter_tex.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../HomePage/vertical_split_view.dart';
 
@@ -66,11 +66,8 @@ class _EditingPageState extends State<EditingPage> {
           ElevatedButton(
             style: imagePicked != true
                 ? ButtonStyle()
-                : ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.green)),
-            onPressed:
-                imagePicked != true ? _pickAndPreviewImage : _uploadImage,
+                : ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
+            onPressed: imagePicked != true ? _pickAndPreviewImage : _uploadImage,
             child: imagePicked != true
                 ? Text('Pick Image')
                 : Text('Click '
@@ -85,18 +82,13 @@ class _EditingPageState extends State<EditingPage> {
           ElevatedButton(
             onPressed: () {
               _updateOrAddData(widget.questionIndex, imageUrl);
-              Navigator.pop(
-                  context); // Return to the previous screen after updating
+              Navigator.pop(context); // Return to the previous screen after updating
             },
-            child: Text(widget.isNewQuestion == true
-                ? 'Add Question'
-                : 'Update Question'),
+            child: Text(widget.isNewQuestion == true ? 'Add Question' : 'Update Question'),
           ),
           SizedBox(width: 8),
         ],
-        title: Text(widget.isNewQuestion == true
-            ? 'Add New Question'
-            : 'Edit Question'),
+        title: Text(widget.isNewQuestion == true ? 'Add New Question' : 'Edit Question'),
       ),
       body: HorizontalSplitView(
         left: Padding(
@@ -156,8 +148,7 @@ class _EditingPageState extends State<EditingPage> {
                     height: 150,
                     imageUrl: imageUrl!,
                     placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) =>
-                        Icon(Icons.no_photography),
+                    errorWidget: (context, url, error) => Icon(Icons.no_photography),
                   ),
                 ),
               // Updated text
@@ -179,111 +170,6 @@ class _EditingPageState extends State<EditingPage> {
           ),
         ),
       ),
-      // body: Row(
-      //   children: [
-      //     // Editing Section
-      //     Expanded(
-      //       flex: 5,
-      //       child: Padding(
-      //         padding: const EdgeInsets.all(16.0),
-      //         child: SingleChildScrollView(
-      //           child: Column(
-      //             children: [
-      //               // SizedBox(height: 16),
-      //               buildQuestionTextFIeld(),
-      //               SizedBox(height: 16),
-      //               buildAnswerTextField(),
-      //               SizedBox(height: 16),
-      //               buildMathTypeTextField(),
-      //               SizedBox(height: 16),
-      //               //Without these left column goes down to center
-      //               // if (_imageBytes != null) SizedBox(height: 250),
-      //               // if (imageUrl != null) SizedBox(height: 300),
-      //             ],
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //     // Output Section
-      //     Expanded(
-      //       flex: 4,
-      //       child: Padding(
-      //         padding: const EdgeInsets.all(16.0),
-      //         child: ListView(
-      //           children: [
-      //             Math.tex(questionController.text,
-      //                 textStyle: TextStyle(fontSize: 14, color: Colors.blue)),
-      //             SizedBox(height: 16),
-      //             Math.tex(
-      //               answerController.text,
-      //               textStyle: GoogleFonts.anekBangla(
-      //                 fontSize: 14,
-      //                 fontWeight: FontWeight.w900,
-      //               ),
-      //             ),
-      //             SizedBox(height: 8),
-      //             if (_imageBytes != null)
-      //               Padding(
-      //                 padding: const EdgeInsets.symmetric(vertical: 16.0),
-      //                 child: Image.memory(
-      //                   _imageBytes!,
-      //                   height: 150,
-      //                   width: 150,
-      //                   fit: BoxFit.contain,
-      //                 ),
-      //               ),
-      //             if (imageUrl != null)
-      //               Center(
-      //                 child: CachedNetworkImage(
-      //                   height: 150,
-      //                   imageUrl: imageUrl!,
-      //                   placeholder: (context, url) =>
-      //                       CircularProgressIndicator(),
-      //                   errorWidget: (context, url, error) =>
-      //                       Icon(Icons.no_photography),
-      //                 ),
-      //               ),
-      //             // TeXView(
-      //             //   renderingEngine: TeXViewRenderingEngine.katex(),
-      //             //   child: TeXViewColumn(
-      //             //     children: [
-      //             //       TeXViewDocument(
-      //             //         questionController.text,
-      //             //         style: TeXViewStyle(
-      //             //           contentColor: Colors.blue,
-      //             //         ),
-      //             //       ),
-      //             //       TeXViewDocument(
-      //             //         answerController.text,
-      //             //         style: TeXViewStyle(
-      //             //           margin: TeXViewMargin.only(top: 16),
-      //             //           contentColor: Colors.white,
-      //             //         ),
-      //             //       ),
-      //             //     ],
-      //             //   ),
-      //             // ), // Updated text
-      //             SizedBox(height: 8),
-      //             Text(
-      //               'Math Type: ${mathTypeController.text}',
-      //               textAlign: TextAlign.right,
-      //               style: TextStyle(fontSize: 12, color: Colors.blueGrey),
-      //             ),
-      //             SizedBox(height: 4),
-      //             widget.isNewQuestion == true
-      //                 ? SizedBox.shrink()
-      //                 : Text(
-      //                     'Timestamp: ${widget.questionDetails?['date_updated']}',
-      //                     textAlign: TextAlign.right,
-      //                     style:
-      //                         TextStyle(fontSize: 12, color: Colors.blueGrey),
-      //                   ),
-      //           ],
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 
@@ -291,8 +177,7 @@ class _EditingPageState extends State<EditingPage> {
     if (imageUrl != null)
       try {
         // Create a Reference object for the image in storage
-        Reference imageReference =
-            FirebaseStorage.instance.refFromURL(imageUrl!);
+        Reference imageReference = FirebaseStorage.instance.refFromURL(imageUrl!);
 
         // Delete the image
         await imageReference.delete();
@@ -303,8 +188,7 @@ class _EditingPageState extends State<EditingPage> {
           content: Center(
             child: Text(
               "Image Deleted Successfully",
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
           ),
         ));
@@ -331,8 +215,7 @@ class _EditingPageState extends State<EditingPage> {
   Future<void> _uploadImage() async {
     if (_imageBytes == null) return null;
 
-    String fileName =
-        widget.folderName + '_Image_' + widget.questionIndex.toString();
+    String fileName = widget.folderName + '_Image_' + widget.questionIndex.toString();
     Reference referenceRoot = FirebaseStorage.instance.ref();
     Reference referenceDirImage = referenceRoot.child(widget.folderName);
     Reference referenceImageToUpload = referenceDirImage.child(fileName);
@@ -421,8 +304,8 @@ class _EditingPageState extends State<EditingPage> {
           filled: true,
           fillColor: Colors.black12,
           hintText: 'Type your answer here',
-          contentPadding: EdgeInsets.symmetric(
-              vertical: 15.0, horizontal: 10.0), // Adjust padding as needed
+          contentPadding:
+              EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0), // Adjust padding as needed
         ),
         onChanged: (_) {
           // setState helps update text in realtime
@@ -445,8 +328,8 @@ class _EditingPageState extends State<EditingPage> {
           filled: true,
           fillColor: Colors.black12,
           hintText: 'Type your question here',
-          contentPadding: EdgeInsets.symmetric(
-              vertical: 15.0, horizontal: 10.0), // Adjust padding as needed
+          contentPadding:
+              EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0), // Adjust padding as needed
         ),
         onChanged: (_) {
           // setState helps update text in realtime
