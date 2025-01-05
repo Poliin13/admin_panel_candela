@@ -18,16 +18,6 @@ class SideDrawer extends StatelessWidget {
               child: Image.asset("assets/images/icon_candela_transparent.png"),
             ),
           ),
-          // ListTile(
-          //   leading: const Icon(Icons.person),
-          //   title: const Text('Latex'),
-          //   onTap: () {
-          //     Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //             builder: (context) => TeXViewDocumentExamples()));
-          //   },
-          // ),
           ListTile(
             leading: const Icon(Icons.rocket),
             title: const Text('Physics 1st'),
@@ -36,8 +26,7 @@ class SideDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        HomePage(questionsChapter: 'chapter_1_math_questions')),
+                    builder: (context) => HomePage(chapterName: 'chapter_1_math')),
               );
             },
           ),
@@ -49,8 +38,7 @@ class SideDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      HomePage(questionsChapter: 'chapter_2_math_questions'),
+                  builder: (context) => HomePage(chapterName: 'chapter_2_math'),
                 ),
               );
             },
@@ -63,8 +51,7 @@ class SideDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      HomePage(questionsChapter: 'chapter_3_math_questions'),
+                  builder: (context) => HomePage(chapterName: 'chapter_3_math'),
                 ),
               );
             },
@@ -79,8 +66,9 @@ class SideDrawer extends StatelessWidget {
             title: const Text('Log Out'),
             onTap: () async {
               // await logoutUser(context);
-              await FirebaseAuth.instance.signOut().then((value) =>
-                  Navigator.pushReplacementNamed(context, '/sign-in'));
+              await FirebaseAuth.instance
+                  .signOut()
+                  .then((value) => Navigator.pushReplacementNamed(context, '/sign-in'));
             },
           ),
         ],

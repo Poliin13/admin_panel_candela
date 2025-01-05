@@ -1,360 +1,57 @@
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <base href="/">
-
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- Icon -->
-  <link rel="icon" type="image/png" href="icon_candela_transparent.png"/>
-
-  <title>untitled</title>
-  <link rel="manifest" href="manifest.json">
-
-
-<!--  //Loading Screen-->
-  <style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A new Flutter project.">
+    <link rel="icon" type="image/png" href="icon_candela_transparent.png">
+    <link rel="manifest" href="manifest.json">
+    <title>untitled</title>
+    <style>
         body {
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #212332;
+          margin: 0;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          background-color: #212332;
         }
-
         #loading-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
         }
-
         #loading-gif {
-            width: 40%; /* Set the width as per your GIF size */
+          width: 40%;
         }
     </style>
-  <!--  //Loading Screen-->
-
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = "3910993296";
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
-
-  <!--//Flutter Tex-->
-  <script src="assets/packages/flutter_tex/js/flutter_tex.js"></script>
-  <script type="text/javascript">window.flutterWebRenderer = "canvaskit";</script>
-</head>
-
-
-<body>
-<!--loading Gif data-->
-<div id="loading-container">
-  <img id="loading-gif" src="assets/loading.gif" alt="Loading...">
-</div>
-<script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Simulate data loading delay (replace this with your actual data loading logic)
-            setTimeout(function () {
-                document.getElementById("loading-container").style.display = "none";
-            }, 2000); // Adjust the delay as needed
-        });
-    </script>
-<script src="main.dart.js" type="application/javascript"></script>
-<!--loading Gif data-->
-
-
-<script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
+    <script>
+        const serviceWorkerVersion = '"2652557575"';
+        window.addEventListener('load', () => {
+          setTimeout(() => {
+            document.getElementById('loading-container').style.display = 'none';
+          }, 2000);
+          _flutter.loader.load({
+            serviceWorker: {serviceWorkerVersion},
+            onEntrypointLoaded: (engineInitializer) => {
+              engineInitializer.initializeEngine().then((appRunner) => {
+                appRunner.runApp();
+              });
+            }
           });
-        }
-      });
-    });
-  </script>
+        });
 
-<!--<script>-->
-<!--    let useHtml = false;-->
-
-<!--    window.addEventListener('load', function(ev) {-->
-<!--    _flutter.loader.loadEntrypoint({-->
-<!--      serviceWorker: {-->
-<!--        serviceWorkerVersion: serviceWorkerVersion,-->
-<!--      },-->
-<!--      onEntrypointLoaded: function(engineInitializer) {-->
-<!--        let config = {-->
-<!--          renderer: useHtml ? "html" : "canvaskit",-->
-<!--        };-->
-<!--        engineInitializer.initializeEngine(config).then(function(appRunner) {-->
-<!--          appRunner.runApp();-->
-<!--        });-->
-<!--      }-->
-<!--    });-->
-<!--  });-->
-<!--  </script>-->
-
-
-
-<script type="text/javascript">
-    window.flutterWebRenderer = "html";
-</script>
-
+    </script>
+    <script src="flutter.js" defer></script>
+    <script src="assets/packages/flutter_tex/js/flutter_tex.js"></script>
+    <script type="text/javascript">window.flutterWebRenderer = "canvaskit";</script>
+</head>
+<body>
+<div id="loading-container">
+    <img id="loading-gif" src="assets/loading.gif" alt="Loading...">
+</div>
+<script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
-
-<!--<!DOCTYPE html>-->
-<!--<html>-->
-<!--<head>-->
-
-<!--  <script src="assets/packages/flutter_tex/js/flutter_tex.js"></script>-->
-<!--  <script type="text/javascript">window.flutterWebRenderer = "canvaskit";</script>-->
-
-<!--  <base href="/" />-->
-
-<!--  <meta charset="UTF-8" />-->
-<!--  <meta content="IE=Edge" http-equiv="X-UA-Compatible" />-->
-<!--  <meta name="description" content="A new Flutter project." />-->
-
-<!--  &lt;!&ndash; iOS meta tags & icons &ndash;&gt;-->
-<!--  <meta name="apple-mobile-web-app-capable" content="yes" />-->
-<!--  <meta name="apple-mobile-web-app-status-bar-style" content="black" />-->
-<!--  <meta name="apple-mobile-web-app-title" content="admin" />-->
-<!--  <link rel="apple-touch-icon" href="icons/Icon-192.png" />-->
-
-<!--  &lt;!&ndash; Favicon &ndash;&gt;-->
-<!--  <link rel="icon" type="image/png" href="favicon.png" />-->
-
-<!--  <title>admin</title>-->
-<!--  <link rel="manifest" href="manifest.json" />-->
-<!--  &lt;!&ndash; Styling for loading indicator &ndash;&gt;-->
-<!--  <style>-->
-<!--      body {-->
-<!--        background: #000;-->
-<!--      }-->
-
-<!--      #load {-->
-<!--        position: absolute;-->
-<!--        width: 600px;-->
-<!--        height: 36px;-->
-<!--        left: 50%;-->
-<!--        top: 40%;-->
-<!--        margin-left: -300px;-->
-<!--        overflow: visible;-->
-<!--        -webkit-user-select: none;-->
-<!--        -moz-user-select: none;-->
-<!--        -ms-user-select: none;-->
-<!--        user-select: none;-->
-<!--        cursor: default;-->
-<!--      }-->
-
-<!--      #load div {-->
-<!--        position: absolute;-->
-<!--        width: 20px;-->
-<!--        height: 36px;-->
-<!--        opacity: 0;-->
-<!--        font-family: Helvetica, Arial, sans-serif;-->
-<!--        animation: move 2s linear infinite;-->
-<!--        -o-animation: move 2s linear infinite;-->
-<!--        -moz-animation: move 2s linear infinite;-->
-<!--        -webkit-animation: move 2s linear infinite;-->
-<!--        transform: rotate(180deg);-->
-<!--        -o-transform: rotate(180deg);-->
-<!--        -moz-transform: rotate(180deg);-->
-<!--        -webkit-transform: rotate(180deg);-->
-<!--        color: #35c4f0;-->
-<!--      }-->
-
-<!--      #load div:nth-child(2) {-->
-<!--        animation-delay: 0.2s;-->
-<!--        -o-animation-delay: 0.2s;-->
-<!--        -moz-animation-delay: 0.2s;-->
-<!--        -webkit-animation-delay: 0.2s;-->
-<!--      }-->
-<!--      #load div:nth-child(3) {-->
-<!--        animation-delay: 0.4s;-->
-<!--        -o-animation-delay: 0.4s;-->
-<!--        -webkit-animation-delay: 0.4s;-->
-<!--        -webkit-animation-delay: 0.4s;-->
-<!--      }-->
-<!--      #load div:nth-child(4) {-->
-<!--        animation-delay: 0.6s;-->
-<!--        -o-animation-delay: 0.6s;-->
-<!--        -moz-animation-delay: 0.6s;-->
-<!--        -webkit-animation-delay: 0.6s;-->
-<!--      }-->
-<!--      #load div:nth-child(5) {-->
-<!--        animation-delay: 0.8s;-->
-<!--        -o-animation-delay: 0.8s;-->
-<!--        -moz-animation-delay: 0.8s;-->
-<!--        -webkit-animation-delay: 0.8s;-->
-<!--      }-->
-<!--      #load div:nth-child(6) {-->
-<!--        animation-delay: 1s;-->
-<!--        -o-animation-delay: 1s;-->
-<!--        -moz-animation-delay: 1s;-->
-<!--        -webkit-animation-delay: 1s;-->
-<!--      }-->
-<!--      #load div:nth-child(7) {-->
-<!--        animation-delay: 1.2s;-->
-<!--        -o-animation-delay: 1.2s;-->
-<!--        -moz-animation-delay: 1.2s;-->
-<!--        -webkit-animation-delay: 1.2s;-->
-<!--      }-->
-
-<!--      @keyframes move {-->
-<!--        0% {-->
-<!--          left: 0;-->
-<!--          opacity: 0;-->
-<!--        }-->
-<!--        35% {-->
-<!--          left: 41%;-->
-<!--          -moz-transform: rotate(0deg);-->
-<!--          -webkit-transform: rotate(0deg);-->
-<!--          -o-transform: rotate(0deg);-->
-<!--          transform: rotate(0deg);-->
-<!--          opacity: 1;-->
-<!--        }-->
-<!--        65% {-->
-<!--          left: 59%;-->
-<!--          -moz-transform: rotate(0deg);-->
-<!--          -webkit-transform: rotate(0deg);-->
-<!--          -o-transform: rotate(0deg);-->
-<!--          transform: rotate(0deg);-->
-<!--          opacity: 1;-->
-<!--        }-->
-<!--        100% {-->
-<!--          left: 100%;-->
-<!--          -moz-transform: rotate(-180deg);-->
-<!--          -webkit-transform: rotate(-180deg);-->
-<!--          -o-transform: rotate(-180deg);-->
-<!--          transform: rotate(-180deg);-->
-<!--          opacity: 0;-->
-<!--        }-->
-<!--      }-->
-
-<!--      @-moz-keyframes move {-->
-<!--        0% {-->
-<!--          left: 0;-->
-<!--          opacity: 0;-->
-<!--        }-->
-<!--        35% {-->
-<!--          left: 41%;-->
-<!--          -moz-transform: rotate(0deg);-->
-<!--          transform: rotate(0deg);-->
-<!--          opacity: 1;-->
-<!--        }-->
-<!--        65% {-->
-<!--          left: 59%;-->
-<!--          -moz-transform: rotate(0deg);-->
-<!--          transform: rotate(0deg);-->
-<!--          opacity: 1;-->
-<!--        }-->
-<!--        100% {-->
-<!--          left: 100%;-->
-<!--          -moz-transform: rotate(-180deg);-->
-<!--          transform: rotate(-180deg);-->
-<!--          opacity: 0;-->
-<!--        }-->
-<!--      }-->
-
-<!--      @-webkit-keyframes move {-->
-<!--        0% {-->
-<!--          left: 0;-->
-<!--          opacity: 0;-->
-<!--        }-->
-<!--        35% {-->
-<!--          left: 41%;-->
-<!--          -webkit-transform: rotate(0deg);-->
-<!--          transform: rotate(0deg);-->
-<!--          opacity: 1;-->
-<!--        }-->
-<!--        65% {-->
-<!--          left: 59%;-->
-<!--          -webkit-transform: rotate(0deg);-->
-<!--          transform: rotate(0deg);-->
-<!--          opacity: 1;-->
-<!--        }-->
-<!--        100% {-->
-<!--          left: 100%;-->
-<!--          -webkit-transform: rotate(-180deg);-->
-<!--          transform: rotate(-180deg);-->
-<!--          opacity: 0;-->
-<!--        }-->
-<!--      }-->
-
-<!--      @-o-keyframes move {-->
-<!--        0% {-->
-<!--          left: 0;-->
-<!--          opacity: 0;-->
-<!--        }-->
-<!--        35% {-->
-<!--          left: 41%;-->
-<!--          -o-transform: rotate(0deg);-->
-<!--          transform: rotate(0deg);-->
-<!--          opacity: 1;-->
-<!--        }-->
-<!--        65% {-->
-<!--          left: 59%;-->
-<!--          -o-transform: rotate(0deg);-->
-<!--          transform: rotate(0deg);-->
-<!--          opacity: 1;-->
-<!--        }-->
-<!--        100% {-->
-<!--          left: 100%;-->
-<!--          -o-transform: rotate(-180deg);-->
-<!--          transform: rotate(-180deg);-->
-<!--          opacity: 0;-->
-<!--        }-->
-<!--      }-->
-<!--    </style>-->
-<!--</head>-->
-
-<!--<body>-->
-<!--&lt;!&ndash; Loading Indicator &ndash;&gt;-->
-<!--<div id="load">-->
-<!--  <div>G</div>-->
-<!--  <div>N</div>-->
-<!--  <div>I</div>-->
-<!--  <div>D</div>-->
-<!--  <div>A</div>-->
-<!--  <div>O</div>-->
-<!--  <div>L</div>-->
-<!--</div>-->
-<!--&lt;!&ndash; This script installs service_worker.js to provide PWA functionality to-->
-<!--   application. For more information, see:-->
-<!--   https://developers.google.com/web/fundamentals/primers/service-workers &ndash;&gt;-->
-<!--<script>-->
-<!--      if ("serviceWorker" in navigator) {-->
-<!--        window.addEventListener("flutter-first-frame", function () {-->
-<!--          navigator.serviceWorker.register("flutter_service_worker.js");-->
-<!--        });-->
-<!--      }-->
-<!--    </script>-->
-<!--<script src="main.dart.js" type="application/javascript"></script>-->
-<!--&lt;!&ndash; Removes the loading indicator after 10 seconds &ndash;&gt;-->
-<!--<script>-->
-<!--      window.onload = function () {-->
-<!--        setTimeout(function () {-->
-<!--          var loadingIndicator = document.getElementById("loading_container");-->
-<!--          if (loadingIndicator) {-->
-<!--            loadingIndicator.remove();-->
-<!--          }-->
-<!--        }, 10000);-->
-<!--      };-->
-<!--    </script>-->
-<!--</body>-->
-<!--</html>-->

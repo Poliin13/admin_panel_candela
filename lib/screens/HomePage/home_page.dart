@@ -5,37 +5,38 @@ import 'question_card_list.dart';
 import '../Drawer/drawer.dart';
 
 class HomePage extends StatelessWidget {
-  final String questionsChapter;
+  final String chapterName;
 
-  HomePage({Key? key, required this.questionsChapter})
-      : super(key: key);
+  const HomePage({Key? key, required this.chapterName}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    bool isDesktop = Responsive.isDesktop(context);
+
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: !isDesktop, // Remove drawer icon on desktop
         title: Text(
           'CANDELA',
           style: GoogleFonts.caesarDressing(
-              fontSize: 20, fontWeight: FontWeight.w900, color: Colors.amber),
+            fontSize: 20,
+            fontWeight: FontWeight.w900,
+            color: Colors.amber,
+          ),
         ),
       ),
-      // key: context.read<MenuAppController>().scaffoldKey,
-      drawer: SideDrawer(),
+      drawer: isDesktop ? null : SideDrawer(), // Remove drawer on desktop
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // We want this side menu only for large screen
-            if (Responsive.isDesktop(context))
+            if (isDesktop)
               Expanded(
-                // default flex = 1
-                // and it takes 1/6 part of the screen
                 child: SideDrawer(),
               ),
             Expanded(
-              // It takes 5/6 part of the screen
               flex: 5,
-              child: QuestionCardList(questionsChapter: questionsChapter),
+              child: QuestionCardList(chapterName: chapterName),
             ),
           ],
         ),

@@ -1,135 +1,62 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import '../EditingPage/Editing_page.dart';
+import '../EditingPage/editing_page.dart';
 
 class QuestionCardList extends StatelessWidget {
-  final String questionsChapter;
-
-  QuestionCardList({Key? key, required this.questionsChapter})
-      : super(key: key);
-
-  int newQuestionIndex = 0;
-  String folderName = '';
-  DatabaseReference dataRef =
+  final String chapterName;
+  final DatabaseReference dataRef =
       FirebaseDatabase.instance.ref().child("physics_1st_paper");
+  int newQuestionIndex = 0;
+
+  QuestionCardList({Key? key, required this.chapterName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //Do not refactor this widget
+      backgroundColor: Colors.black, // Set background color to black for contrast
       floatingActionButton: Padding(
-        padding: EdgeInsets.all(16.0), // Adjust the padding as needed
+        padding: EdgeInsets.all(16.0),
         child: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EditingPage(
-                  questionIndex: newQuestionIndex,
-                  isNewQuestion: true, folderName: folderName, // Pass -1 to
-                  // indicate a new question
-                ),
-              ),
-            );
-            // Handle adding a new question
-          },
+          onPressed: () => _addNewQuestion(context),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Icon(Icons.add),
           ),
           tooltip: 'Add New Question',
           heroTag: 'addQuestionButton',
+          backgroundColor: Colors.blueAccent,
         ),
       ),
       body: StreamBuilder(
-        stream: dataRef.child(questionsChapter).onValue,
-        builder: (context, snapshot) {
+        stream: dataRef.child(chapterName).onValue,
+        builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else if (!snapshot.hasData ||
-              snapshot.data!.snapshot.value == null) {
-            return Center(child: Text('No question items available.'));
+            return Center(
+                child: Text('Error: ${snapshot.error}',
+                    style: TextStyle(color: Colors.white)));
+          } else if (!snapshot.hasData || snapshot.data!.snapshot.value == null) {
+            return Center(
+                child: Text('No question items available.',
+                    style: TextStyle(color: Colors.white)));
           } else {
             DataSnapshot dataSnapshot = snapshot.data!.snapshot;
-            //get the folder name for image folder
-            folderName = dataSnapshot.key!;
-            //Add items to list
+            String folderName = dataSnapshot.key!;
+            List<dynamic> questionItemsList = dataSnapshot.value as List<dynamic>;
             List<Map<String, dynamic>> questionItems =
-                (dataSnapshot.value as List<dynamic>)
-                    .cast<Map<String, dynamic>>();
-            //for adding new item to the list this value is needed
+                questionItemsList.map((item) => Map<String, dynamic>.from(item)).toList();
             newQuestionIndex = questionItems.length;
-            print(newQuestionIndex);
-            return ListView.builder(
+
+            return ListView.separated(
               itemCount: questionItems.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () => onPress(context, questionItems, index),
-                  onLongPress: () => onLongPressFunction(
-                      context, questionItems[index]['image_url'], index),
-                  child: Card(
-                    elevation: 3,
-                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.all(16.0),
-                      trailing: questionItems[index]['image_url'] == null
-                          ? SizedBox.shrink()
-                          : Container(
-                              height: double.infinity,
-                              width: 150,
-                              child: Center(
-                                child: CachedNetworkImage(
-                                  imageUrl: questionItems[index]['image_url']!,
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.no_photography),
-                                ),
-                              ),
-                            ),
-                      title: Text(
-                        '${questionItems[index]['question']}',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue, // Adjust the color as needed
-                        ),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              height:
-                                  8), // Add spacing between question and other items
-                          Text(
-                            '${questionItems[index]['answer']}',
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 8),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              'Math Type: '
-                                      '${questionItems[index]['math_type']}, ' +
-                                  'Date Updated : ${questionItems[index]['date_updated']}',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.blueGrey,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
+              itemBuilder: (context, index) => _buildQuestionItem(
+                context,
+                questionItems,
+                index,
+                folderName,
+              ),
+              separatorBuilder: (context, index) => Divider(color: Colors.white),
             );
           }
         },
@@ -137,13 +64,62 @@ class QuestionCardList extends StatelessWidget {
     );
   }
 
-  void onPress(BuildContext context, List<Map<String, dynamic>> questionItems,
-      int index) {
+  Widget _buildQuestionItem(
+    BuildContext context,
+    List<Map<String, dynamic>> questionItems,
+    int index,
+    String folderName,
+  ) {
+    return ListTile(
+      title: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Text(
+              '${index + 1}',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 5,
+            child: Text(
+              questionItems[index]['question'],
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              questionItems[index]['date_updated'],
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+        ],
+      ),
+      onTap: () => _onPress(context, questionItems, index, folderName),
+      onLongPress: () => _onLongPressFunction(context),
+    );
+  }
+
+  void _onPress(BuildContext context, List<Map<String, dynamic>> questionItems, int index,
+      String folderName) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => EditingPage(
-          folderName: folderName,
+          chapterName: chapterName,
           questionDetails: questionItems[index],
           questionIndex: index,
           isNewQuestion: false,
@@ -152,7 +128,7 @@ class QuestionCardList extends StatelessWidget {
     );
   }
 
-  void onLongPressFunction(BuildContext context, String imageUrl, int index) {
+  void _onLongPressFunction(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -166,51 +142,22 @@ class QuestionCardList extends StatelessWidget {
               },
               child: Text('Cancel'),
             ),
-            TextButton(
-              onPressed: () async {
-                // Call the deleteQuestion function with the index
-                //problem
-                // await deleteQuestion(index);
-                await deleteImage(imageUrl);
-                Navigator.pop(context); // Close the dialog
-              },
-              child: Text('Delete'),
-            ),
           ],
         );
       },
     );
   }
 
-  Future<void> deleteQuestion(int index) async {
-    DatabaseReference itemReference = FirebaseDatabase.instance
-        .ref()
-        .child("physics_1st_paper")
-        .child("chapter_1_math_questions")
-        .child(index.toString());
-
-    try {
-      // Remove the item from the database
-      await itemReference.remove();
-      //this command sets the list item to be null rather removing it
-      print('Item deleted successfully.');
-    } catch (error) {
-      print('Error deleting item: $error');
-      // Handle the error as needed
-    }
-  }
-
-  Future<void> deleteImage(String imageUrl) async {
-    try {
-      // Create a Reference object for the image in storage
-      Reference imageReference = FirebaseStorage.instance.refFromURL(imageUrl);
-
-      // Delete the image
-      await imageReference.delete();
-
-      print('Image deleted successfully!');
-    } catch (error) {
-      print('Error deleting image: $error');
-    }
+  void _addNewQuestion(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditingPage(
+          questionIndex: newQuestionIndex,
+          isNewQuestion: true,
+          chapterName: chapterName,
+        ),
+      ),
+    );
   }
 }

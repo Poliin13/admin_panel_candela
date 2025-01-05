@@ -1,97 +1,57 @@
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<!--  <base href="$FLUTTER_BASE_HREF">-->
-
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- Icon -->
-  <link rel="icon" type="image/png" href="icon_candela_transparent.png"/>
-
-  <title>untitled</title>
-  <link rel="manifest" href="manifest.json">
-
-
-<!--  //Loading Screen-->
-  <style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A new Flutter project.">
+    <link rel="icon" type="image/png" href="icon_candela_transparent.png">
+    <link rel="manifest" href="manifest.json">
+    <title>untitled</title>
+    <style>
         body {
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #212332;
+          margin: 0;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          background-color: #212332;
         }
-
         #loading-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
         }
-
         #loading-gif {
-            width: 40%; /* Set the width as per your GIF size */
+          width: 40%;
         }
     </style>
-  <!--  //Loading Screen-->
-
-  <script>
-    // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = null;
-  </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
-
-  <!--//Flutter Tex-->
-  <script src="assets/packages/flutter_tex/js/flutter_tex.js"></script>
-  <script type="text/javascript">window.flutterWebRenderer = "canvaskit";</script>
-</head>
-
-
-<body>
-<!--loading Gif data-->
-<div id="loading-container">
-  <img id="loading-gif" src="assets/loading.gif" alt="Loading...">
-</div>
-<script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Simulate data loading delay (replace this with your actual data loading logic)
-            setTimeout(function () {
-                document.getElementById("loading-container").style.display = "none";
-            }, 2000); // Adjust the delay as needed
-        });
-    </script>
-<script src="main.dart.js" type="application/javascript"></script>
-<!--loading Gif data-->
-
-
-<script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
+    <script>
+        const serviceWorkerVersion = '{{flutter_service_worker_version}}';
+        window.addEventListener('load', () => {
+          setTimeout(() => {
+            document.getElementById('loading-container').style.display = 'none';
+          }, 2000);
+          _flutter.loader.load({
+            serviceWorker: {serviceWorkerVersion},
+            onEntrypointLoaded: (engineInitializer) => {
+              engineInitializer.initializeEngine().then((appRunner) => {
+                appRunner.runApp();
+              });
+            }
           });
-        }
-      });
-    });
-  </script>
+        });
 
-
-
-<script type="text/javascript">
-    window.flutterWebRenderer = "html";
-</script>
-
+    </script>
+    <script src="flutter.js" defer></script>
+    <script src="assets/packages/flutter_tex/js/flutter_tex.js"></script>
+    <script type="text/javascript">window.flutterWebRenderer = "canvaskit";</script>
+</head>
+<body>
+<div id="loading-container">
+    <img id="loading-gif" src="assets/loading.gif" alt="Loading...">
+</div>
+<script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
