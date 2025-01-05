@@ -51,6 +51,7 @@ class _EditingPageState extends State<EditingPage> {
         title: Text(widget.isNewQuestion ? 'Add New Question' : 'Edit Question'),
       ),
       body: HorizontalSplitView(
+        ratio: .6,
         left: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
