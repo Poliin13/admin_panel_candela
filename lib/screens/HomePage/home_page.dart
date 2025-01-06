@@ -6,7 +6,6 @@ import '../Drawer/drawer.dart';
 
 class HomePage extends StatelessWidget {
   final String chapterName;
-
   const HomePage({Key? key, required this.chapterName}) : super(key: key);
 
   @override
@@ -32,10 +31,11 @@ class HomePage extends StatelessWidget {
           children: [
             if (isDesktop)
               Expanded(
+                flex: 1,
                 child: SideDrawer(),
               ),
             Expanded(
-              flex: 5,
+              flex: 4,
               child: QuestionCardList(chapterName: chapterName),
             ),
           ],

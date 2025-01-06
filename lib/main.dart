@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Admin Panel',
+      title: 'Candela',
       theme: darkThemeData,
       initialRoute:
           FirebaseAuth.instance.currentUser != null ? '/loadingPage' : '/sign-in',
