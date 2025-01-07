@@ -28,16 +28,16 @@ class SideDrawer extends StatelessWidget {
               _mathSUChapters(context), Colors.purple[700]!),
           ListTile(
             leading: const Icon(Icons.settings, color: Colors.grey),
-            title: const Text('Settings', style: TextStyle(color: Colors.white)),
+            title:
+                const Text('Settings', style: TextStyle(color: Colors.white)),
             onTap: () {},
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app, color: Colors.grey),
             title: const Text('Log Out', style: TextStyle(color: Colors.white)),
             onTap: () async {
-              await FirebaseAuth.instance
-                  .signOut()
-                  .then((value) => Navigator.pushReplacementNamed(context, '/sign-in'));
+              await FirebaseAuth.instance.signOut().then((value) =>
+                  Navigator.pushReplacementNamed(context, '/sign-in'));
             },
           ),
         ],
@@ -45,8 +45,8 @@ class SideDrawer extends StatelessWidget {
     );
   }
 
-  ExpansionTile _buildExpansionTile(BuildContext context, IconData icon, String title,
-      List<Widget> children, Color backgroundColor) {
+  ExpansionTile _buildExpansionTile(BuildContext context, IconData icon,
+      String title, List<Widget> children, Color backgroundColor) {
     return ExpansionTile(
       leading: Icon(icon, color: Colors.white),
       title: Text(title, style: const TextStyle(color: Colors.white)),
@@ -66,7 +66,8 @@ class SideDrawer extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage(chapterName: chapterName)),
+            MaterialPageRoute(
+                builder: (context) => HomePage(chapterName: chapterName)),
           );
         },
       ),
@@ -103,6 +104,24 @@ class SideDrawer extends StatelessWidget {
             'chapter_2_math_2nd', Colors.teal[900]!),
         _buildListTile(context, Icons.rocket, 'Physics-Math-2nd', 'Chapter 3',
             'chapter_3_math_2nd', Colors.teal[800]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Math-2nd', 'Chapter 4',
+            'chapter_4_math_2nd', Colors.teal[900]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Math-2nd', 'Chapter 5',
+            'chapter_5_math_2nd', Colors.teal[800]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Math-2nd', 'Chapter 6',
+            'chapter_6_math_2nd', Colors.teal[900]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Math-2nd', 'Chapter 7',
+            'chapter_7_math_2nd', Colors.teal[800]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Math-2nd', 'Chapter 8',
+            'chapter_8_math_2nd', Colors.teal[900]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Math-2nd', 'Chapter 9',
+            'chapter_9_math_2nd', Colors.teal[800]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Math-2nd', 'Chapter 10',
+            'chapter_10_math_2nd', Colors.teal[900]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Math-2nd', 'Chapter 11',
+            'chapter_11_math_2nd', Colors.teal[800]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Math-2nd', 'Chapter 12',
+            'chapter_12_math_2nd', Colors.teal[900]!),
       ];
 
   List<Widget> _physicsObjectivesChapters(BuildContext context) => [
@@ -112,6 +131,24 @@ class SideDrawer extends StatelessWidget {
             'chapter_2_physics_objectives', Colors.green[900]!),
         _buildListTile(context, Icons.rocket, 'Physics-Objectives', 'Chapter 3',
             'chapter_3_physics_objectives', Colors.green[800]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Objectives', 'Chapter 4',
+            'chapter_4_physics_objectives', Colors.green[900]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Objectives', 'Chapter 5',
+            'chapter_5_physics_objectives', Colors.green[800]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Objectives', 'Chapter 6',
+            'chapter_6_physics_objectives', Colors.green[900]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Objectives', 'Chapter 7',
+            'chapter_7_physics_objectives', Colors.green[800]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Objectives', 'Chapter 8',
+            'chapter_8_physics_objectives', Colors.green[900]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Objectives', 'Chapter 9',
+            'chapter_9_physics_objectives', Colors.green[800]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Objectives',
+            'Chapter 10', 'chapter_10_physics_objectives', Colors.green[900]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Objectives',
+            'Chapter 11', 'chapter_11_physics_objectives', Colors.green[800]!),
+        _buildListTile(context, Icons.rocket, 'Physics-Objectives',
+            'Chapter 12', 'chapter_12_physics_objectives', Colors.green[900]!),
       ];
 
   List<Widget> _mathAmirChapters(BuildContext context) => [
@@ -121,6 +158,24 @@ class SideDrawer extends StatelessWidget {
             'chapter_2_math_amir', Colors.orange[900]!),
         _buildListTile(context, Icons.calculate, 'Math-Amir', 'Chapter 3',
             'chapter_3_math_amir', Colors.orange[800]!),
+        _buildListTile(context, Icons.calculate, 'Math-Amir', 'Chapter 4',
+            'chapter_4_math_amir', Colors.orange[900]!),
+        _buildListTile(context, Icons.calculate, 'Math-Amir', 'Chapter 5',
+            'chapter_5_math_amir', Colors.orange[800]!),
+        _buildListTile(context, Icons.calculate, 'Math-Amir', 'Chapter 6',
+            'chapter_6_math_amir', Colors.orange[900]!),
+        _buildListTile(context, Icons.calculate, 'Math-Amir', 'Chapter 7',
+            'chapter_7_math_amir', Colors.orange[800]!),
+        _buildListTile(context, Icons.calculate, 'Math-Amir', 'Chapter 8',
+            'chapter_8_math_amir', Colors.orange[900]!),
+        _buildListTile(context, Icons.calculate, 'Math-Amir', 'Chapter 9',
+            'chapter_9_math_amir', Colors.orange[800]!),
+        _buildListTile(context, Icons.calculate, 'Math-Amir', 'Chapter 10',
+            'chapter_10_math_amir', Colors.orange[900]!),
+        _buildListTile(context, Icons.calculate, 'Math-Amir', 'Chapter 11',
+            'chapter_11_math_amir', Colors.orange[800]!),
+        _buildListTile(context, Icons.calculate, 'Math-Amir', 'Chapter 12',
+            'chapter_12_math_amir', Colors.orange[900]!),
       ];
 
   List<Widget> _mathSUChapters(BuildContext context) => [
@@ -130,5 +185,23 @@ class SideDrawer extends StatelessWidget {
             'chapter_2_math_su', Colors.purple[900]!),
         _buildListTile(context, Icons.calculate, 'Math-S.U.', 'Chapter 3',
             'chapter_3_math_su', Colors.purple[800]!),
+        _buildListTile(context, Icons.calculate, 'Math-S.U.', 'Chapter 4',
+            'chapter_4_math_su', Colors.purple[900]!),
+        _buildListTile(context, Icons.calculate, 'Math-S.U.', 'Chapter 5',
+            'chapter_5_math_su', Colors.purple[800]!),
+        _buildListTile(context, Icons.calculate, 'Math-S.U.', 'Chapter 6',
+            'chapter_6_math_su', Colors.purple[900]!),
+        _buildListTile(context, Icons.calculate, 'Math-S.U.', 'Chapter 7',
+            'chapter_7_math_su', Colors.purple[800]!),
+        _buildListTile(context, Icons.calculate, 'Math-S.U.', 'Chapter 8',
+            'chapter_8_math_su', Colors.purple[900]!),
+        _buildListTile(context, Icons.calculate, 'Math-S.U.', 'Chapter 9',
+            'chapter_9_math_su', Colors.purple[800]!),
+        _buildListTile(context, Icons.calculate, 'Math-S.U.', 'Chapter 10',
+            'chapter_10_math_su', Colors.purple[900]!),
+        _buildListTile(context, Icons.calculate, 'Math-S.U.', 'Chapter 11',
+            'chapter_11_math_su', Colors.purple[800]!),
+        _buildListTile(context, Icons.calculate, 'Math-S.U.', 'Chapter 12',
+            'chapter_12_math_su', Colors.purple[900]!),
       ];
 }

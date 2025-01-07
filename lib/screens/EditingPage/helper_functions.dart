@@ -20,7 +20,8 @@ Future<String?> uploadImage(
 
   if (result != null && result.files.isNotEmpty) {
     final fileBytes = result.files.first.bytes;
-    final fileExtension = result.files.first.extension; // Extract file extension
+    final fileExtension =
+        result.files.first.extension; // Extract file extension
     final fileName =
         '${folderName}_Image_$questionIndex.$fileExtension'; // Append file extension to filename
     final referenceImageToUpload =
@@ -53,8 +54,8 @@ Future<String?> uploadImage(
         );
 
         // Update the Realtime Database with the new image URL
-        await updateOrAddData(
-            questionIndex, imageUrl, isNewQuestion, questionController, answerController);
+        await updateOrAddData(folderName, questionIndex, imageUrl,
+            isNewQuestion, questionController, answerController);
         print('Image URL updated in Realtime Database.');
         return imageUrl;
       }
@@ -70,6 +71,7 @@ Future<String?> uploadImage(
 Future<void> deleteImage(
     BuildContext context,
     String? imageUrl,
+    String folderName,
     int questionIndex,
     TextEditingController questionController,
     TextEditingController answerController,
@@ -99,8 +101,8 @@ Future<void> deleteImage(
       print('Image deleted successfully!');
 
       // Update the Realtime Database to remove the image URL
-      await updateOrAddData(
-          questionIndex, null, isNewQuestion, questionController, answerController);
+      await updateOrAddData(folderName, questionIndex, null, isNewQuestion,
+          questionController, answerController);
       print('Image URL removed from Realtime Database.');
     } catch (error) {
       print('Error deleting image: $error');
@@ -111,6 +113,7 @@ Future<void> deleteImage(
 }
 
 Future<void> updateOrAddData(
+    String folderName,
     int questionIndex,
     String? imageUrl,
     bool isNewQuestion,
@@ -126,7 +129,7 @@ Future<void> updateOrAddData(
   final _databaseReference = FirebaseDatabase.instance
       .ref()
       .child("physics_1st_paper")
-      .child("chapter_1_math")
+      .child(folderName)
       .child(questionIndex.toString());
 
   try {

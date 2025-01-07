@@ -65,7 +65,8 @@ class _EditingPageState extends State<EditingPage> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.isNewQuestion ? 'Add New Question' : 'Edit Question'),
+          title:
+              Text(widget.isNewQuestion ? 'Add New Question' : 'Edit Question'),
         ),
         body: HorizontalSplitView(
           ratio: .6,
@@ -180,8 +181,14 @@ class _EditingPageState extends State<EditingPage> {
             SizedBox(height: 8),
             FloatingActionButton(
               onPressed: () async {
-                await deleteImage(context, imageUrl, widget.questionIndex,
-                    questionController, answerController, widget.isNewQuestion);
+                await deleteImage(
+                    context,
+                    imageUrl,
+                    widget.chapterName,
+                    widget.questionIndex,
+                    questionController,
+                    answerController,
+                    widget.isNewQuestion);
                 setState(() {
                   imageUrl = null;
                 });
@@ -192,11 +199,17 @@ class _EditingPageState extends State<EditingPage> {
             SizedBox(height: 8),
             FloatingActionButton(
               onPressed: () {
-                updateOrAddData(widget.questionIndex, imageUrl, widget.isNewQuestion,
-                    questionController, answerController);
+                updateOrAddData(
+                    widget.chapterName,
+                    widget.questionIndex,
+                    imageUrl,
+                    widget.isNewQuestion,
+                    questionController,
+                    answerController);
                 Navigator.pop(context);
               },
-              tooltip: widget.isNewQuestion ? 'Add Question' : 'Update Question',
+              tooltip:
+                  widget.isNewQuestion ? 'Add Question' : 'Update Question',
               child: Icon(widget.isNewQuestion ? Icons.add : Icons.update),
             ),
           ],
@@ -231,7 +244,8 @@ class _EditingPageState extends State<EditingPage> {
             context: context,
             builder: (context) => AlertDialog(
               title: Text('Are you sure?'),
-              content: Text('Do you want to update the question before leaving?'),
+              content:
+                  Text('Do you want to update the question before leaving?'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(true),
@@ -240,6 +254,7 @@ class _EditingPageState extends State<EditingPage> {
                 TextButton(
                   onPressed: () {
                     updateOrAddData(
+                      widget.chapterName,
                       widget.questionIndex,
                       imageUrl,
                       widget.isNewQuestion,
