@@ -4,16 +4,21 @@ import '../EditingPage/editing_page.dart';
 
 class QuestionCardList extends StatelessWidget {
   final String chapterName;
-  final DatabaseReference dataRef =
-      FirebaseDatabase.instance.ref().child("physics_1st_paper");
+  final String jsonNode;
+  final DatabaseReference dataRef;
   int newQuestionIndex = 0;
 
-  QuestionCardList({Key? key, required this.chapterName}) : super(key: key);
+  QuestionCardList({
+    Key? key,
+    required this.chapterName,
+    required this.jsonNode,
+  })  : dataRef = FirebaseDatabase.instance.ref().child(jsonNode),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Set background color to black for contrast
+      backgroundColor: Colors.black,
       floatingActionButton: Padding(
         padding: EdgeInsets.all(16.0),
         child: FloatingActionButton(
@@ -36,16 +41,19 @@ class QuestionCardList extends StatelessWidget {
             return Center(
                 child: Text('Error: ${snapshot.error}',
                     style: TextStyle(color: Colors.white)));
-          } else if (!snapshot.hasData || snapshot.data!.snapshot.value == null) {
+          } else if (!snapshot.hasData ||
+              snapshot.data!.snapshot.value == null) {
             return Center(
                 child: Text('No question items available.',
                     style: TextStyle(color: Colors.white)));
           } else {
             DataSnapshot dataSnapshot = snapshot.data!.snapshot;
             String folderName = dataSnapshot.key!;
-            List<dynamic> questionItemsList = dataSnapshot.value as List<dynamic>;
-            List<Map<String, dynamic>> questionItems =
-                questionItemsList.map((item) => Map<String, dynamic>.from(item)).toList();
+            List<dynamic> questionItemsList =
+                dataSnapshot.value as List<dynamic>;
+            List<Map<String, dynamic>> questionItems = questionItemsList
+                .map((item) => Map<String, dynamic>.from(item))
+                .toList();
             newQuestionIndex = questionItems.length;
 
             return ListView.separated(
@@ -56,7 +64,8 @@ class QuestionCardList extends StatelessWidget {
                 index,
                 folderName,
               ),
-              separatorBuilder: (context, index) => Divider(color: Colors.white),
+              separatorBuilder: (context, index) =>
+                  Divider(color: Colors.white),
             );
           }
         },
@@ -113,8 +122,8 @@ class QuestionCardList extends StatelessWidget {
     );
   }
 
-  void _onPress(BuildContext context, List<Map<String, dynamic>> questionItems, int index,
-      String folderName) {
+  void _onPress(BuildContext context, List<Map<String, dynamic>> questionItems,
+      int index, String folderName) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -123,6 +132,7 @@ class QuestionCardList extends StatelessWidget {
           questionDetails: questionItems[index],
           questionIndex: index,
           isNewQuestion: false,
+          jsonNode: jsonNode, // Pass jsonNode to EditingPage
         ),
       ),
     );
@@ -156,6 +166,7 @@ class QuestionCardList extends StatelessWidget {
           questionIndex: newQuestionIndex,
           isNewQuestion: true,
           chapterName: chapterName,
+          jsonNode: jsonNode, // Pass jsonNode to EditingPage
         ),
       ),
     );

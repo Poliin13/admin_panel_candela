@@ -38,12 +38,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Candela',
       theme: darkThemeData,
-      initialRoute:
-          FirebaseAuth.instance.currentUser != null ? '/loadingPage' : '/sign-in',
+      initialRoute: FirebaseAuth.instance.currentUser != null
+          ? '/loadingPage'
+          : '/sign-in',
       routes: {
         '/sign-in': (context) => const SignIn(),
-        // '/sign-in': (context) => HomePage(chapterName: 'chapter_1_math'),
-        '/loadingPage': (context) => HomePage(chapterName: 'chapter_1_math'),
+        '/loadingPage': (context) => HomePage(jsonNode: "physics_1st_paper", chapterName: 'chapter_1_mat'
+            'h'),
       },
     );
   }

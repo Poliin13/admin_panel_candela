@@ -9,6 +9,7 @@ class EditingPage extends StatefulWidget {
   final int questionIndex;
   final bool isNewQuestion;
   final String chapterName;
+  final String jsonNode;
 
   const EditingPage({
     Key? key,
@@ -16,6 +17,7 @@ class EditingPage extends StatefulWidget {
     this.questionDetails,
     required this.isNewQuestion,
     required this.chapterName,
+    required this.jsonNode,
   }) : super(key: key);
 
   @override
@@ -110,7 +112,7 @@ class _EditingPageState extends State<EditingPage> {
                           margin: TeXViewMargin.only(top: 16),
                           contentColor: Colors.white,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -168,7 +170,8 @@ class _EditingPageState extends State<EditingPage> {
                     widget.questionIndex,
                     questionController,
                     answerController,
-                    widget.isNewQuestion);
+                    widget.isNewQuestion,
+                    widget.jsonNode); // Pass jsonNode to helper function
                 if (url != null) {
                   setState(() {
                     imageUrl = url;
@@ -188,7 +191,8 @@ class _EditingPageState extends State<EditingPage> {
                     widget.questionIndex,
                     questionController,
                     answerController,
-                    widget.isNewQuestion);
+                    widget.isNewQuestion,
+                    widget.jsonNode); // Pass jsonNode to helper function
                 setState(() {
                   imageUrl = null;
                 });
@@ -200,12 +204,14 @@ class _EditingPageState extends State<EditingPage> {
             FloatingActionButton(
               onPressed: () {
                 updateOrAddData(
-                    widget.chapterName,
-                    widget.questionIndex,
-                    imageUrl,
-                    widget.isNewQuestion,
-                    questionController,
-                    answerController);
+                  widget.jsonNode,
+                  widget.chapterName,
+                  widget.questionIndex,
+                  imageUrl,
+                  widget.isNewQuestion,
+                  questionController,
+                  answerController,
+                ); // Pass jsonNode to helper function
                 Navigator.pop(context);
               },
               tooltip:
@@ -254,6 +260,7 @@ class _EditingPageState extends State<EditingPage> {
                 TextButton(
                   onPressed: () {
                     updateOrAddData(
+                      widget.jsonNode,
                       widget.chapterName,
                       widget.questionIndex,
                       imageUrl,

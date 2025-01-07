@@ -6,7 +6,13 @@ import '../Drawer/drawer.dart';
 
 class HomePage extends StatelessWidget {
   final String chapterName;
-  const HomePage({Key? key, required this.chapterName}) : super(key: key);
+  final String jsonNode;
+
+  const HomePage({
+    Key? key,
+    required this.jsonNode,
+    required this.chapterName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +42,10 @@ class HomePage extends StatelessWidget {
               ),
             Expanded(
               flex: 4,
-              child: QuestionCardList(chapterName: chapterName),
+              child: QuestionCardList(
+                jsonNode: jsonNode,
+                chapterName: chapterName,
+              ),
             ),
           ],
         ),

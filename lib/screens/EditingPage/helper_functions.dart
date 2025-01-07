@@ -10,7 +10,9 @@ Future<String?> uploadImage(
     int questionIndex,
     TextEditingController questionController,
     TextEditingController answerController,
-    bool isNewQuestion) async {
+    bool isNewQuestion,
+    String jsonNode) async {
+  // Add jsonNode parameter
   final result = await FilePicker.platform.pickFiles(
     type: FileType.image,
     allowMultiple: false,
@@ -54,7 +56,7 @@ Future<String?> uploadImage(
         );
 
         // Update the Realtime Database with the new image URL
-        await updateOrAddData(folderName, questionIndex, imageUrl,
+        await updateOrAddData(jsonNode, folderName, questionIndex, imageUrl,
             isNewQuestion, questionController, answerController);
         print('Image URL updated in Realtime Database.');
         return imageUrl;
@@ -75,7 +77,9 @@ Future<void> deleteImage(
     int questionIndex,
     TextEditingController questionController,
     TextEditingController answerController,
-    bool isNewQuestion) async {
+    bool isNewQuestion,
+    String jsonNode) async {
+  // Add jsonNode parameter
   if (imageUrl != null) {
     try {
       print('Attempting to delete image: $imageUrl');
@@ -101,8 +105,8 @@ Future<void> deleteImage(
       print('Image deleted successfully!');
 
       // Update the Realtime Database to remove the image URL
-      await updateOrAddData(folderName, questionIndex, null, isNewQuestion,
-          questionController, answerController);
+      await updateOrAddData(jsonNode, folderName, questionIndex, null,
+          isNewQuestion, questionController, answerController);
       print('Image URL removed from Realtime Database.');
     } catch (error) {
       print('Error deleting image: $error');
@@ -113,12 +117,14 @@ Future<void> deleteImage(
 }
 
 Future<void> updateOrAddData(
+    String jsonNode,
     String folderName,
     int questionIndex,
     String? imageUrl,
     bool isNewQuestion,
     TextEditingController questionController,
     TextEditingController answerController) async {
+  // Add jsonNode parameter
   final data = {
     'question': questionController.text,
     'answer': answerController.text,
@@ -128,7 +134,7 @@ Future<void> updateOrAddData(
 
   final _databaseReference = FirebaseDatabase.instance
       .ref()
-      .child("physics_1st_paper")
+      .child(jsonNode) // Use jsonNode here
       .child(folderName)
       .child(questionIndex.toString());
 
