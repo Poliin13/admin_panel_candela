@@ -6,6 +6,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart'; // Import Firebase Database
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tex/flutter_tex.dart';
 import 'Authentication/sign_in.dart';
 import 'ThemeData/theme_data.dart';
@@ -28,7 +29,7 @@ Future<void> main() async {
   // Configure Firebase UI Auth providers
   FirebaseUIAuth.configureProviders([EmailAuthProvider()]);
 
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -43,8 +44,8 @@ class MyApp extends StatelessWidget {
           : '/sign-in',
       routes: {
         '/sign-in': (context) => const SignIn(),
-        '/loadingPage': (context) => HomePage(jsonNode: "physics_1st_paper", chapterName: 'chapter_1_mat'
-            'h'),
+        '/loadingPage': (context) => HomePage(
+            jsonNode: "physics_1st_paper", chapterName: 'chapter_1_math'),
       },
     );
   }

@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../EditingPage/editing_page.dart';
+import '../McqEditing/mcq_editing_page.dart';
 
 class QuestionCardList extends StatelessWidget {
   final String chapterName;
@@ -21,15 +22,25 @@ class QuestionCardList extends StatelessWidget {
       backgroundColor: Colors.black,
       floatingActionButton: Padding(
         padding: EdgeInsets.all(16.0),
-        child: FloatingActionButton(
-          onPressed: () => _addNewQuestion(context),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.add),
-          ),
-          tooltip: 'Add New Question',
-          heroTag: 'addQuestionButton',
-          backgroundColor: Colors.blueAccent,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: () => _addNewMcqQuestion(context),
+              child: Icon(Icons.check_box),
+              tooltip: 'Add New MCQ',
+              heroTag: 'addMcqQuestionButton',
+              backgroundColor: Colors.green,
+            ),
+            SizedBox(height: 16.0),
+            FloatingActionButton(
+              onPressed: () => _addNewRegularQuestion(context),
+              child: Icon(Icons.text_fields),
+              tooltip: 'Add New Regular Question',
+              heroTag: 'addRegularQuestionButton',
+              backgroundColor: Colors.blueAccent,
+            ),
+          ],
         ),
       ),
       body: StreamBuilder(
@@ -96,7 +107,9 @@ class QuestionCardList extends StatelessWidget {
           Expanded(
             flex: 5,
             child: Text(
-              questionItems[index]['question'],
+              questionItems[index]['question'] ??
+                  questionItems[index]['mcqQuestion'] ??
+                  '',
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 16,
@@ -107,7 +120,7 @@ class QuestionCardList extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              questionItems[index]['date_updated'],
+              questionItems[index]['date_updated'] ?? '',
               textAlign: TextAlign.right,
               style: TextStyle(
                 fontSize: 12,
@@ -124,18 +137,36 @@ class QuestionCardList extends StatelessWidget {
 
   void _onPress(BuildContext context, List<Map<String, dynamic>> questionItems,
       int index, String folderName) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EditingPage(
-          chapterName: chapterName,
-          questionDetails: questionItems[index],
-          questionIndex: index,
-          isNewQuestion: false,
-          jsonNode: jsonNode, // Pass jsonNode to EditingPage
+    final questionItem = questionItems[index];
+    final isMcq = questionItem.containsKey('mcqQuestion');
+
+    if (isMcq) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => McqEditingPage(
+            chapterName: chapterName,
+            mcqDetails: questionItem,
+            mcqIndex: index,
+            isNewMcq: false,
+            jsonNode: jsonNode, // Pass jsonNode to McqEditingPage
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EditingPage(
+            chapterName: chapterName,
+            questionDetails: questionItem,
+            questionIndex: index,
+            isNewQuestion: false,
+            jsonNode: jsonNode, // Pass jsonNode to EditingPage
+          ),
+        ),
+      );
+    }
   }
 
   void _onLongPressFunction(BuildContext context) {
@@ -158,7 +189,7 @@ class QuestionCardList extends StatelessWidget {
     );
   }
 
-  void _addNewQuestion(BuildContext context) {
+  void _addNewRegularQuestion(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -167,6 +198,20 @@ class QuestionCardList extends StatelessWidget {
           isNewQuestion: true,
           chapterName: chapterName,
           jsonNode: jsonNode, // Pass jsonNode to EditingPage
+        ),
+      ),
+    );
+  }
+
+  void _addNewMcqQuestion(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => McqEditingPage(
+          mcqIndex: newQuestionIndex,
+          isNewMcq: true,
+          chapterName: chapterName,
+          jsonNode: jsonNode, // Pass jsonNode to McqEditingPage
         ),
       ),
     );

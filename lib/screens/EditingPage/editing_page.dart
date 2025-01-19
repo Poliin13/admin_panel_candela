@@ -64,7 +64,7 @@ class _EditingPageState extends State<EditingPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onWillPop,
+      onWillPop: onWillPop,
       child: Scaffold(
         appBar: AppBar(
           title:
@@ -242,7 +242,7 @@ class _EditingPageState extends State<EditingPage> {
     );
   }
 
-  Future<bool> _onWillPop() async {
+  Future<bool> onWillPop() async {
     // Check if there are any changes
     if (questionController.text != initialQuestion ||
         answerController.text != initialAnswer) {
